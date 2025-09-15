@@ -1,0 +1,257 @@
+import { createContext, useContext, useMemo, useState } from "react";
+
+const dict = {
+  en: {
+    home: "Home",
+    builder: "Builder",
+    dashboard: "Dashboard",
+    profile: "Profile",
+    one_click_hosting: "One‑click Hosting",
+    sign_in: "Sign in",
+    sign_out: "Sign out",
+
+    home_title: "Build stunning portfolios in minutes",
+    home_subtitle: "DigiPratibha is a no‑code portfolio builder with drag‑and‑drop, four beautiful templates, one‑click hosting, PDF export, and simple user management.",
+    start_building: "Start Building",
+    explore_features: "Explore Features",
+    pick_template: "Pick a template and make it yours",
+    use_template: "Use Template",
+
+    features_dragdrop: "Drag & Drop",
+    features_dragdrop_desc: "Arrange sections visually with instant preview.",
+    features_templates: "4 Templates",
+    features_templates_desc: "Classic, Minimal, Bold, and Timeline to start fast.",
+    features_hosting: "One‑click Hosting",
+    features_hosting_desc: "Deploy via Netlify or Vercel integrations.",
+    features_pdf: "PDF Export",
+    features_pdf_desc: "Share offline or attach to applications.",
+    features_user: "User Management",
+    features_user_desc: "Local accounts to save and resume work.",
+    features_responsive: "Responsive",
+    features_responsive_desc: "Looks great on phones, tablets, and desktops.",
+
+    how_it_works: "How it works",
+    step1: "Choose a template",
+    step1_desc: "Start from one of our four presets.",
+    step2: "Customize",
+    step2_desc: "Drag blocks, edit text, reorder sections.",
+    step3: "Publish",
+    step3_desc: "Export PDF or deploy with one click.",
+
+    why_title: "Why DigiPratibha?",
+    why_point1: "Pixel‑perfect templates with responsive design",
+    why_point2: "Instant hosting with Netlify or Vercel",
+    why_point3: "Portable PDF export for applications",
+
+    footer_product: "Product",
+    footer_resources: "Resources",
+    footer_get_started: "Get started",
+    footer_builder: "Builder",
+    footer_profile: "Profile",
+    footer_features: "Features",
+    footer_how: "How it works",
+    cta_start_building: "Start Building",
+
+    // Builder
+    blocks: "Blocks",
+    templates: "Templates",
+    canvas: "Canvas",
+    export_pdf: "Export PDF",
+    download_html: "Download HTML",
+    properties: "Properties",
+    canvas_bg: "Canvas background",
+    text_color: "Text color",
+    live_preview: "Live Preview",
+    block_settings: "Block settings",
+    font_size: "Font size",
+    align: "Align",
+    align_left: "Left",
+    align_center: "Center",
+    align_right: "Right",
+    width: "Width",
+
+    // Palette blocks
+    block_hero: "Hero",
+    block_heading: "Heading",
+    block_text: "Text",
+    block_image: "Image",
+    block_projects: "Projects",
+    block_about: "About",
+    block_contact: "Contact",
+    block_divider: "Divider",
+
+    // Publish dialog
+    deploy_title: "Deploy your portfolio",
+    deploy_desc: "Deploy directly using platform integrations.",
+    deploy_netlify_btn: "Deploy to Netlify",
+    deploy_vercel_btn: "Deploy to Vercel",
+    deploy_step1: "Open MCP popover and connect Netlify or Vercel.",
+    deploy_step2: "Return here and click the Deploy button or ask me to deploy.",
+    tip_export: "Tip: Export PDF or Download HTML anytime.",
+
+    // Profile & Dashboard
+    profile_title: "Profile",
+    manage_desc: "Manage your profile and see quick stats.",
+    profile_photo: "Profile photo",
+    username: "Username",
+    description: "Description",
+    website: "Website",
+    location: "Location",
+    skills: "Skills (comma separated)",
+    github: "GitHub",
+    linkedin: "LinkedIn",
+    twitter: "Twitter",
+    remove_photo: "Remove photo",
+    clear_profile: "Clear profile",
+    saved: "Saved",
+
+    dashboard_title: "Dashboard",
+    overview_desc: "Overview of your activity and usage.",
+    quick_stats: "Quick stats",
+    activity_trend: "Activity trend",
+    events_breakdown: "Events breakdown",
+    recent_activity: "Recent activity",
+    pdf_exports: "PDF Exports",
+    html_downloads: "HTML Downloads",
+
+    // 404
+    not_found_title: "404",
+    not_found_msg: "Page not found",
+    go_home: "Go Home",
+  },
+  hi: {
+    home: "होम",
+    builder: "बिल्डर",
+    dashboard: "डैशबोर्ड",
+    profile: "प्रोफ़ाइल",
+    one_click_hosting: "वन‑क्लिक होस्टिंग",
+    sign_in: "साइन इन",
+    sign_out: "साइन आउट",
+
+    home_title: "मिनटों में शानदार पोर्टफोलियो बनाएं",
+    home_subtitle: "डिजीप्रतिभा एक नो‑कोड पोर्टफोल���यो बिल्डर है जिसमें ड्रैग‑एंड‑ड्रॉप, चार सुंदर टेम्पलेट्स, वन‑क्लिक होस्टिंग, पीडीएफ एक्सपोर्ट और सरल यूज़र मैनेजमेंट है।",
+    start_building: "बिल्डिंग शुरू करें",
+    explore_features: "विशेषताएं देखें",
+    pick_template: "एक टेम्पलेट चुनें और उसे अपना बनाएं",
+    use_template: "टेम्पलेट चुनें",
+
+    features_dragdrop: "ड्रैग और ड्रॉप",
+    features_dragdrop_desc: "दृश्य रूप से सेक्शन व्यवस्थित करें और तुरंत प्रीव्यू देखें।",
+    features_templates: "4 टेम्पलेट्स",
+    features_templates_desc: "क्लासिक, मिनिमल, बोल्ड और टाइमलाइन से जल्दी शुरुआत करें।",
+    features_hosting: "वन‑क्लिक होस्टिंग",
+    features_hosting_desc: "नेटलिफ़ाई या वर्सेल इंटीग्रेशन से डिप्लॉय करें।",
+    features_pdf: "पीडीएफ एक्सपोर्ट",
+    features_pdf_desc: "ऑफ़लाइन साझा करें या अप्लिकेशन्स के साथ संलग्न करें।",
+    features_user: "यूज़र मैनेजमेंट",
+    features_user_desc: "लोकल अकाउंट्स से काम सेव करें और जारी रखें।",
+    features_responsive: "रेस्पॉन्सिव",
+    features_responsive_desc: "फ़ोन, टैबलेट और डेस्कटॉप पर शानदार।",
+
+    how_it_works: "कैसे काम करता है",
+    step1: "टेम्पलेट चुनें",
+    step1_desc: "हमारे चार प्रीसेट्स में से शुरुआत करें।",
+    step2: "कस्टमाइज़ करें",
+    step2_desc: "ब्लॉक्स ड्रैग करें, टेक्स्ट एडिट करें, सेक्शन रीऑर्डर करें।",
+    step3: "पब्लिश करें",
+    step3_desc: "पीडीएफ एक्सपोर्ट करें या एक क्लिक में डिप्लॉय करें।",
+
+    why_title: "क्यों DigiPratibha?",
+    why_point1: "रेस्पॉन्सिव डिज़ाइन के साथ पिक्सल‑परफेक्ट टेम्पलेट्स",
+    why_point2: "नेटलिफ़ाई या वर्सेल से इंस्टेंट होस्टिंग",
+    why_point3: "आवेदन के लिए पोर्टेबल पीडीएफ एक्सपोर्ट",
+
+    footer_product: "प्रोडक्ट",
+    footer_resources: "रिसोर्सेज",
+    footer_get_started: "शुरुआत करें",
+    footer_builder: "बिल्डर",
+    footer_profile: "प्रोफ़ाइल",
+    footer_features: "फ़ीचर्स",
+    footer_how: "कैसे काम करता है",
+    cta_start_building: "बिल्डिंग शुरू करें",
+
+    blocks: "ब्लॉक्स",
+    templates: "टेम्पलेट्स",
+    canvas: "कैनवस",
+    export_pdf: "पीडीएफ एक्सपोर्ट",
+    download_html: "एचटीएमएल डाउनलोड",
+    properties: "प्रॉपर्टीज",
+    canvas_bg: "कैनवस बैकग्राउंड",
+    text_color: "टेक्स्ट रंग",
+    live_preview: "लाइव प्रीव्यू",
+    block_settings: "ब्लॉक सेटिंग्स",
+    font_size: "फ़ॉन्ट साइज",
+    align: "अलाइन",
+    align_left: "लेफ़्ट",
+    align_center: "सेंटर",
+    align_right: "राइट",
+    width: "चौड़ाई",
+
+    block_hero: "हीरो",
+    block_heading: "हेडिंग",
+    block_text: "टेक्स्ट",
+    block_image: "इमेज",
+    block_projects: "प्रोजेक्ट्स",
+    block_about: "अबाउट",
+    block_contact: "कॉन्टैक्ट",
+    block_divider: "डिवाइडर",
+
+    deploy_title: "अपना पोर्टफोलियो डिप्लॉय करें",
+    deploy_desc: "प्लेटफ़ॉर्म इंटीग्रेशन से सीधे डिप्लॉय करें।",
+    deploy_netlify_btn: "नेटलिफ़ाई पर डिप्लॉय करें",
+    deploy_vercel_btn: "वर्सेल पर डिप्लॉय करें",
+    deploy_step1: "MCP पॉपओवर खोल���ं और Netlify या Vercel कनेक्ट करें।",
+    deploy_step2: "यहाँ आएँ और डिप्लॉय दबाएँ या मुझसे डिप्लॉय करने को कहे��।",
+    tip_export: "टिप: कभी भी पीडीएफ एक्सपोर्ट या एचटीएमएल डाउनलोड करें।",
+
+    profile_title: "प्रोफ़ाइल",
+    manage_desc: "अपनी प्रोफ़ाइल मैनेज करें और त्वरित आँकड़े देखें।",
+    profile_photo: "प्रोफ़ाइल फोटो",
+    username: "यूज़रनेम",
+    description: "विवरण",
+    website: "वेबसाइट",
+    location: "स्थान",
+    skills: "कौशल (कॉमा से अलग)",
+    github: "गिटहब",
+    linkedin: "लिंक्डइन",
+    twitter: "ट्विटर",
+    remove_photo: "फोटो हटाएँ",
+    clear_profile: "प्रोफ़ाइल साफ़ करें",
+    saved: "सेव्ड",
+
+    dashboard_title: "डैशबोर्ड",
+    overview_desc: "आपकी गतिविधि और उपयोग का ओवरव्यू।",
+    quick_stats: "क्विक स्टैट्स",
+    activity_trend: "गतिविधि ट्रेंड",
+    events_breakdown: "इवेंट ब्रेकडाउन",
+    recent_activity: "हाल की गतिविधि",
+    pdf_exports: "पीडीएफ एक्सपोर्ट्स",
+    html_downloads: "एचटीएमएल डाउनलोड्स",
+
+    not_found_title: "404",
+    not_found_msg: "पेज नहीं मिला",
+    go_home: "होम जाएँ",
+  },
+};
+
+const I18nContext = createContext({ lang: "en", t: (k) => k, setLang: () => {} });
+
+export function I18nProvider({ children }) {
+  const [lang, setLang] = useState(() => localStorage.getItem("dp_lang") || "en");
+  const value = useMemo(
+    () => ({
+      lang,
+      setLang: (l) => {
+        localStorage.setItem("dp_lang", l);
+        setLang(l);
+      },
+      t: (k) => (dict[lang] && dict[lang][k]) || dict.en[k] || k,
+    }),
+    [lang],
+  );
+  return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
+}
+
+export function useI18n() {
+  return useContext(I18nContext);
+}
