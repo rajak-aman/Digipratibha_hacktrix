@@ -110,7 +110,7 @@ export default function Home() {
               No‑code platform for students to build and share portfolios.
             </p>
             <div className="mt-6">
-              <h4 className="font-semibold">Must‑Have Features:</h4>
+              <h4 className="font-semibold">Features:</h4>
               <ul className="list-disc pl-5 space-y-1 mt-2 text-white/80">
                 <li>Drag‑and‑Drop Builder</li>
                 <li>4 Templates</li>
